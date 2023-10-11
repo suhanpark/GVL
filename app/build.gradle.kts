@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.gvl"
-        minSdk = 34
+        minSdk = 22
         targetSdk = 34
         versionCode = 8
         versionName = "1.7"
