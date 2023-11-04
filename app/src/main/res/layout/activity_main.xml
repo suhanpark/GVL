@@ -51,10 +51,11 @@
         app:layout_constraintVertical_bias="0.96"
         app:srcCompat="@drawable/search" />
 
-    <TextView
+    <Button
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:text="GVL"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -62,33 +63,19 @@
         app:layout_constraintHorizontal_bias="0.112"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.049" />
+        app:layout_constraintVertical_bias="0.039" />
 
     <TextView
-        android:id="@+id/current_location"
+        android:id="@+id/loc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="148dp"
-        android:text=" "
+        android:text="Gary, Indiana"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.677" />
-
-    <ImageView
-        android:id="@+id/location_pin"
-        android:layout_width="40dp"
-        android:layout_height="35dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toStartOf="@+id/current_location"
-        app:layout_constraintHorizontal_bias="0.97"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.675"
-        app:srcCompat="@drawable/location_pin"
-        android:contentDescription="location_pin"
-        />
+        app:layout_constraintVertical_bias="0.907" />
 
     <ImageView
         android:id="@+id/alert_img"
@@ -133,33 +120,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.958" />
 
-    <ImageButton
-        android:id="@+id/profile_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.049"
-        app:srcCompat="@drawable/profile"
-        android:contentDescription="profile"
-        />
-
     <TextView
         android:id="@+id/total_dni"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Total Deaths\n1,234"
+        android:text="Total Deaths\n1,2345"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.815"
+        app:layout_constraintHorizontal_bias="0.842"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/alert_txt"
-        app:layout_constraintVertical_bias="0.088" />
+        app:layout_constraintVertical_bias="0.143" />
 
     <TextView
         android:id="@+id/last_reported"
@@ -170,10 +143,10 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.519"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/alert_txt"
-        app:layout_constraintVertical_bias="0.312" />
+        app:layout_constraintVertical_bias="0.421" />
 
     <TextView
         android:id="@+id/total_count"
