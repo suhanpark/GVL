@@ -10,28 +10,13 @@
         android:id="@+id/current_location2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="96dp"
         android:text="Gary, IN"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toEndOf="@+id/location_pin2"
+        app:layout_constraintEnd_toEndOf="@+id/type_address"
+        app:layout_constraintStart_toStartOf="@+id/type_address"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.281" />
-
-    <ImageView
-        android:id="@+id/location_pin2"
-        android:layout_width="40dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="92dp"
-        android:contentDescription="location_pin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.97"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.281"
-        app:srcCompat="@drawable/location_pin" />
+        app:layout_constraintVertical_bias="0.282" />
 
     <TextView
         android:id="@+id/total_dni2"
