@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toast;
+import android.Manifest;
 
 import com.example.gvl.ui.login.LoginActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -28,6 +30,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Locale;
+import com.permissionx.guolindev.PermissionX;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,12 +67,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        AppCompatActivity ma = this;
         ImageButton map_btn = (android.widget.ImageButton) findViewById(R.id.map_btn);
         map_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MapActivity.class);
-                startActivity(intent);
+                PermissionX.init(ma)
+                        .permissions(Manifest.permission.ACCESS_FINE_LOCATION)
+                        .request (
+                    (allGranted, grantedList, deniedList) ->
+                    {
+                        if (allGranted) {
+                            Intent intent = new Intent(MainActivity.this, MapActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(ma, "Can't get precise location: permission denied", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                );
+
+                /*Intent intent = new Intent(MainActivity.this, MapActivity.class);
+                startActivity(intent);*/
             }
         });
     }
