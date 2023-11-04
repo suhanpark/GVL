@@ -23,12 +23,13 @@
       app:layout_constraintVertical_bias="0.961"
       app:srcCompat="@drawable/back" />
 
-  <ImageView
-      android:id="@+id/imageView2"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:srcCompat="@drawable/dotmap"
-      tools:layout_editor_absoluteX="0dp"
-      tools:layout_editor_absoluteY="0dp" />
+  <org.osmdroid.views.MapView
+      android:id="@+id/map"
+      android:layout_width="fill_parent"
+      android:layout_height="0dp"
+      app:layout_constraintBottom_toTopOf="@+id/back_btn2"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
