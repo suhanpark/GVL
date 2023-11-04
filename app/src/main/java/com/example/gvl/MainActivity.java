@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         getLocation = findViewById(R.id.locationFinder);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
+        getLastLocation();
         getLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
