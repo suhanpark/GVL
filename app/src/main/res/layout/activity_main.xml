@@ -130,10 +130,10 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.842"
+        app:layout_constraintHorizontal_bias="0.815"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/alert_txt"
-        app:layout_constraintVertical_bias="0.143" />
+        app:layout_constraintVertical_bias="0.088" />
 
     <TextView
         android:id="@+id/last_reported"
@@ -147,7 +147,7 @@
         app:layout_constraintHorizontal_bias="0.519"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/alert_txt"
-        app:layout_constraintVertical_bias="0.421" />
+        app:layout_constraintVertical_bias="0.352" />
 
     <TextView
         android:id="@+id/total_count"
@@ -155,7 +155,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="Total Incidents\n1,234"
+        android:text="Total Injured\n1,234"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
