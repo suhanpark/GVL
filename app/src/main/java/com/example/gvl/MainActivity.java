@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     String risk;
     int deaths;
     String last_incident;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference stateCollection;
     DocumentReference localityDocument;
     TextView totalDeaths;
@@ -80,11 +79,10 @@ public class MainActivity extends AppCompatActivity {
         getLastLocation();
 
         try {
-            // Create a reference to the top-level collection (e.g., "states")
-            stateCollection = db.collection(state);
-            // Create a reference to the document within the state collection (e.g., "localities")
-            localityDocument = stateCollection.document("Detroit");
-            updateRisk(localityDocument, "Victims Injured", "Victims Killed", "Latest Incident Date", riskIcon, alertText);
+//            FirebaseFirestore db = FirebaseFirestore.getInstance();
+//            stateCollection = db.collection("Michigan");
+//            localityDocument = stateCollection.document("Detroit");
+//            updateRisk(localityDocument, "Victims Injured", "Victims Killed", "Latest Incident Date", riskIcon, alertText);
             totalDeaths.setText("Total Deaths\n"+deaths);
             totalInjured.setText("Total Injured\n"+injured);
             lastIncidentDate.setText("Last Reported\n"+lastIncidentDate);
@@ -103,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 getLastLocation();
                 try {
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
                     // Create a reference to the top-level collection (e.g., "states")
                     stateCollection = db.collection(state);
                     // Create a reference to the document within the state collection (e.g., "localities")
@@ -163,8 +162,7 @@ public class MainActivity extends AppCompatActivity {
         PermissionX.init(ma)
                 .permissions(Manifest.permission.ACCESS_FINE_LOCATION)
                 .request(
-                        (allGranted, grantedList, deniedList) ->
-                        {
+                        (allGranted, grantedList, deniedList) -> {
                             if (allGranted) {
                                 fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                                     @Override
@@ -174,9 +172,23 @@ public class MainActivity extends AppCompatActivity {
                                             List<Address> addresses = null;
                                             try {
                                                 addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                                                city = addresses.get(0).getLocality();
-                                                state = addresses.get(0).getAdminArea();
-                                                currentLoc.setText(addresses.get(0).getLocality() + ", " + addresses.get(0).getAdminArea() /*+ ", " + addresses.get(0).getCountryName()*/);
+                                                if (!addresses.isEmpty()) {
+                                                    city = addresses.get(0).getLocality().toString();
+                                                    state = addresses.get(0).getAdminArea().toString();
+                                                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                                    // Initialize localityDocument with the current state and city
+                                                    localityDocument = db.collection(state).document(city);
+
+                                                    currentLoc.setText(addresses.get(0).getLocality() + ", " + addresses.get(0).getAdminArea() /*+ ", " + addresses.get(0).getCountryName()*/);
+
+                                                    // Now that the localityDocument is initialized, you can proceed with other operations
+                                                    updateRisk(localityDocument, "Victims Injured", "Victims Killed", "Latest Incident Date", riskIcon, alertText);
+                                                    totalDeaths.setText("Total Deaths\n" + deaths);
+                                                    totalInjured.setText("Total Injured\n" + injured);
+                                                    lastIncidentDate.setText("Last Reported\n" + lastIncidentDate);
+                                                } else {
+                                                    Toast.makeText(ma, "Unable to fetch address", Toast.LENGTH_LONG).show();
+                                                }
                                             } catch (IOException e) {
                                                 e.printStackTrace();
                                             }
@@ -188,8 +200,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                 );
-
     }
+
     private void updateRisk(DocumentReference localityDocument, String victimsInjuredField, String victimsDeathsField, String lastIncidentField, ImageView riskIcon, TextView alertText) {
         localityDocument.get()
                 .addOnSuccessListener(documentSnapshot -> {
