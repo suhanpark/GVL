@@ -1,2 +1,0 @@
-# GVL
- Gun Violence Locator
