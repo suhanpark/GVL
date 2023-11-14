@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "720523038583",
-    "project_id": "gun-violence-locator-32537",
-    "storage_bucket": "gun-violence-locator-32537.appspot.com"
+    "project_number": "913325235171",
+    "project_id": "gun-violence-locator-9f31c",
+    "storage_bucket": "gun-violence-locator-9f31c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:720523038583:android:2a65644190737892069b72",
+        "mobilesdk_app_id": "1:913325235171:android:627460908eb48a80ea5ed6",
         "android_client_info": {
           "package_name": "com.example.gvl"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAAoo7dCifF3uqKlNGmu1J3-FgC1VkivG8"
+          "current_key": "AIzaSyCR1qk3fXAoiIa0qu509FVirVmyX9Y9tzA"
         }
       ],
       "services": {
