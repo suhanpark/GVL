@@ -127,6 +127,20 @@ public class MainActivity extends AppCompatActivity {
                             throw new RuntimeException(e);
                         }
                     }
+                    // Moriah's changes: No location->reset values
+                    else {
+                        loc.setText("N/A");
+                        riskLevelTV.setText("Can't Access Location");
+                        riskLevelTV.setTextColor(Color.parseColor("#f54251"));
+
+                        totalInjuredTV.setText("Total Injured:\n-");
+                        totalDeathsTV.setText("Total Deaths:\n-");
+                        lastReportedTV.setText("Latest Incident Date:\n-");
+
+                        int iconID = getResources().getIdentifier("no_connection", "drawable", getPackageName());
+                        riskIcon.setImageResource(iconID);
+                    }
+                    //
                 }
             });
         } else {
