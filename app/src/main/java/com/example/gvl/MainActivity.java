@@ -115,9 +115,14 @@ public class MainActivity extends AppCompatActivity {
                         List<Address> addresses = null;
                         try {
                             addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                            state = addresses.get(0).getLocality();
-                            city = addresses.get(0).getAdminArea();
+                            city = addresses.get(0).getLocality();
+                            state = addresses.get(0).getAdminArea();
+
+                            //////// Testing Purposes ///////
 //                            city = "Detroit";
+//                            state = "Michigan";
+                            /////////////////////////////////
+
                             loc.setText(city + ", " + state);
                             risk = 0;
                             // Call a method to fetch data from Firestore based on state and city
