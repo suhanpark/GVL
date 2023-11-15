@@ -64,21 +64,27 @@ public class LoginActivity extends AppCompatActivity {
         final CheckBox rememberMe = binding.remember;
         final ProgressBar loadingProgressBar = binding.loading;
 
-        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
+        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
             @Override
-            public void onChanged(@Nullable LoginFormState loginFormState) {
-                if (loginFormState == null) {
+            public void onChanged(@Nullable LoginResult loginResult) {
+                if (loginResult == null) {
                     return;
                 }
-                loginButton.setEnabled(loginFormState.isDataValid());
-                if (loginFormState.getUsernameError() != null) {
-                    usernameEditText.setError(getString(loginFormState.getUsernameError()));
+                loadingProgressBar.setVisibility(View.GONE);
+                if (loginResult.getError() != null) {
+                    showLoginFailed(loginResult.getError());
                 }
-                if (loginFormState.getPasswordError() != null) {
-                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
+                if (loginResult.getSuccess() != null) {
+                    updateUiWithUser(loginResult.getSuccess());
+
+                    // Start MainActivity here after successful login
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
+
 
         loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
             @Override
