@@ -9,6 +9,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -17,14 +18,24 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -34,6 +45,11 @@ public class SearchActivity extends AppCompatActivity {
     EditText address;
     FusedLocationProviderClient fusedLocationProviderClient;
     TextView loc;
+    int risk;
+    TextView totalInjuredTV;
+    TextView totalDeathsTV;
+    TextView lastReportedTV;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +57,9 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         loc = findViewById(R.id.current_location2);
+        totalInjuredTV = findViewById(R.id.total_count2);
+        totalDeathsTV = findViewById(R.id.total_dni2);
+        lastReportedTV = findViewById(R.id.last_reported2);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -63,11 +82,21 @@ public class SearchActivity extends AppCompatActivity {
 
                 String loc = address.getText().toString();
                 location.setText(loc);
-                Random random = new Random();
-                int deaths = random.nextInt(10000);
-                int incidents = random.nextInt(10000);
-                deathsText.setText("Total Deaths:\n"+deaths);
-                incidentsText.setText("Total Incidents:\n"+incidents);
+
+                // Split string to 2 separate parts, to get city specific data
+                String[] parts = loc.split(", ");
+                String temp_state = parts[1];
+                String temp_city = parts[0];
+                System.out.print(temp_state);
+                System.out.print(temp_city);
+
+                try {
+                    fetchDataFromFirestore(temp_state, temp_city);
+                }
+                catch (Exception e) {
+                    deathsText.setText("Total Deaths:\n"+0);
+                    incidentsText.setText("Total Incidents:\n"+0);
+                }
             }
         });
 
@@ -137,6 +166,55 @@ public class SearchActivity extends AppCompatActivity {
         else {
             askPermission();
         }
+    }
+
+    private void fetchDataFromFirestore(String state, String city) {
+        // Initialize Firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Reference to the Firestore collection and document for Michigan and Detroit
+        DocumentReference documentRef = db.collection("cases")
+                .document(state)
+                .collection("cities")
+                .document(city);
+
+        documentRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Long victimsInjured = document.getLong("Victims Injured");
+                        Long victimsDeaths = document.getLong("Victims Killed");
+                        String lastIncidentDate = document.getString("Latest Incident Date");
+
+                        updateUI(victimsInjured, victimsDeaths, lastIncidentDate);
+                    } else {
+//                        Toast.makeText(MainActivity.this, "Firestore document does not exist for Michigan and Detroit", Toast.LENGTH_SHORT).show();
+                        risk = 0;
+                        Long victimsInjured = 0L;
+                        Long victimsDeaths = 0L;
+                        String lastIncidentDate = "N/A";
+                        updateUI(victimsInjured, victimsDeaths, lastIncidentDate);
+                    }
+                } else {
+//                    Toast.makeText(MainActivity.this, "Error getting Firestore document: " + task.getException(), Toast.LENGTH_SHORT).show();
+                    risk = 0;
+                    Long victimsInjured = 0L;
+                    Long victimsDeaths = 0L;
+                    String lastIncidentDate = "N/A";
+                    updateUI(victimsInjured, victimsDeaths, lastIncidentDate);
+                }
+            }
+        });
+    }
+
+    private void updateUI(Long victimsInjured, Long victimsDeaths, String lastIncidentDate) {
+        // Update UI elements with Firestore data
+        totalInjuredTV.setText("Total Injured:\n" + victimsInjured);
+        totalDeathsTV.setText("Total Deaths:\n" + victimsDeaths);
+        lastReportedTV.setText("Latest Incident Date:\n" + lastIncidentDate);
+
     }
 
     private void askPermission() {
