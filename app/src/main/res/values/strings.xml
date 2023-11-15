@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">GVL</string>
     <!-- Strings related to login -->
+    <string name="welcome_to_gvl">Welcome to GVL</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -11,6 +12,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="remember_me">Remember me</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
